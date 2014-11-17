@@ -30,9 +30,9 @@ app.post('/sendLocation', function(request, response) {
 		"login": login,
 		"lat": lat,
 		"lng": lng,
-		"created_at": d
+		"created_at": d,
 	};
-	db.collection('locations', function(er, collection) {
+	db.collection('locations', function(err, collection) {
 		var id = collection.insert(toInsert, function(err, saved) {
 			if (err) {
 				response.send(500):
