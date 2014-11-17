@@ -14,12 +14,24 @@ var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
 });
 
-app.all('*', function(req, res, next){
+app.all('*', function(req, res, next {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
 	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 	next();
 });
+
+app.get('/locations.json', function(request response) {
+	response.set('Content-Type', 'application/json');
+	var login = request.query.login;
+	var json = '';
+	db.locations.find({'login':login}, function(err, cursor){
+		if (err) {
+			response.send('[]');
+		}
+		response.send(cursor);
+	});
+}
 
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login;
@@ -33,7 +45,7 @@ app.post('/sendLocation', function(request, response) {
 		"created_at": d,
 	};
 	db.locations.insert(toInsert);
-	response.send = ('{"characters":[],"students":{"login":"mchow","lat":42.5335,"lng":-71.1036,"created_at":"Tue Oct 07 2014 04:30:06 GMT+0000 (UTC)","_id":"54336c4e7e6ccd0200ea457c"}]}')
+	response.send('{"characters":[],"students":{"login":"mchow","lat":42.5335,"lng":-71.1036,"created_at":"Tue Oct 07 2014 04:30:06 GMT+0000 (UTC)","_id":"54336c4e7e6ccd0200ea457c"}]}')
 });
 
 app.listen(process.env.PORT || 3000);
