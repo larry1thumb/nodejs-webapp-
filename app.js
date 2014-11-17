@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var mongoUri = process.env.MONGOLAB_URI ||
-			   process.env.MONGOHQ_URL  ||
+			   process.env.MONGOHQ_URL ||
 			   'mongodb://localhost/whereintheworld';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
@@ -15,21 +15,20 @@ var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 });
 
 app.all('*', function(req, res, next){
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Methods", 'PUT, GET POST, DELETE, OPTIONS');
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 	next();
 });
-/*
+
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login,
 	lat = request.body.lat,
 	lng = request.body.lng,
 	d = new Date();
-	var check = require('validator').check;
-	check(lat).isNumeric();
-	check(lng).isNumeric();
-	check(login) = isAlphanumeric();
+	validator.isNumeric(lat);
+	validator.isNumeric(lng);
+	validator.isAlphanumeric(login);
 	var toInsert = {
 		"login":login,
 		"lat":lat,
@@ -55,4 +54,5 @@ app.post('/sendLocation', function(request, response) {
 		});
 
 });
-*/
+
+app.listen(process.env.PORT || 3000);
