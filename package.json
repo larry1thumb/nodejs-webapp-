@@ -4,7 +4,6 @@
         "dependencies": {
                 "express": "latest",
                 "mongodb": "latest",
-                "body-parser": "latest",
-		"validator":"latest"
+                "body-parser": "latest"
         }
 }
