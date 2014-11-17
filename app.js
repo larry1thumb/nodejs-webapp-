@@ -21,7 +21,7 @@ app.all('*', function(req, res, next) {
 	next();
 });
 
-app.get('/locations.json', function(request response) {
+app.get('/locations.json', function(request, response) {
 	response.set('Content-Type', 'application/json');
 	var login = request.query.login;
 	var json = '';
