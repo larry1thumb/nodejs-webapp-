@@ -32,16 +32,8 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d,
 	};
-	db.collection('locations', function(err, collection) {
-		var id = collection.insert(toInsert, function(err, saved) {
-			if (err) {
-				response.send(500):
-			}
-			else {
-				response.send(200);
-			}
-		});
-	});
+	db.locations.insert(toInsert);
+	response.send = ({"characters":[],"students":{"login":"mchow","lat":42.5335,"lng":-71.1036,"created_at":"Tue Oct 07 2014 04:30:06 GMT+0000 (UTC)","_id":"54336c4e7e6ccd0200ea457c"}]})
 });
 
 app.listen(process.env.PORT || 3000);
