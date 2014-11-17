@@ -36,14 +36,14 @@ app.post('/sendLocation', function(request, response) {
 	if (login != null || lat != null || lng != null) {
 		db.collection('locations', function(err, collection) {
 			var id = collection.insert(toInsert);
-		})
+		});
 	}
 		var JSONstring = '{"characters":[],"students":';
 		db.locations.find().sort({ created_at: 1 });
-		JSONstring += '[';
+		JSONstring += "[";
 		for (var i = 0; i < 100; i++) {
 			JSONstring += cursor[i];
 		}
-		JSONstring += ']}';
+		JSONstring += "]}";
 		response.send(JSONstring);
 });
