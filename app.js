@@ -20,7 +20,7 @@ app.all('*', function(req, res, next){
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	next();
 });
-
+/*
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login,
 	lat = request.body.lat,
@@ -55,3 +55,4 @@ app.post('/sendLocation', function(request, response) {
 		});
 
 });
+*/
