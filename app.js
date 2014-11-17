@@ -14,7 +14,7 @@ var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
 });
 
-app.all('*', function(req, res, next {
+app.all('*', function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
 	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -31,7 +31,7 @@ app.get('/locations.json', function(request response) {
 		}
 		response.send(cursor);
 	});
-}
+});
 
 app.post('/sendLocation', function(request, response) {
 	var login = request.body.login;
