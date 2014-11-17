@@ -38,12 +38,12 @@ app.post('/sendLocation', function(request, response) {
 			var id = collection.insert(toInsert);
 		})
 	}
-		var JSONstring = '{"characters":[],"students":'
-		db.locations.find().sort({ created_at: 1 })
+		var JSONstring = '{"characters":[],"students":';
+		db.locations.find().sort({ created_at: 1 });
 		JSONstring += '[';
 		for (var i = 0; i < 100; i++) {
 			JSONstring += cursor[i];
 		}
 		JSONstring += ']}';
 		response.send(JSONstring);
-})
+});
