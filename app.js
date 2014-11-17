@@ -26,9 +26,6 @@ app.post('/sendLocation', function(request, response) {
 	var lat = request.body.lat;
 	var lng = request.body.lng;
 	var d = new Date();
-	//validator.isNumeric(lat);
-	//validator.isNumeric(lng);
-	//validator.isAlphanumeric(login);
 	var toInsert = {
 		"login": login,
 		"lat": lat,
@@ -43,7 +40,6 @@ app.post('/sendLocation', function(request, response) {
 			else {
 				response.send(200);
 			}
-			});
 		});
 	});
 });
