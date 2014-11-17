@@ -1,7 +1,7 @@
 //Initialization
 var express = require('express');
 var bodyParser = require('body-parser');
-//var validator = require('validator');
+var validator = require('validator');
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,23 +27,32 @@ app.post('/sendLocation', function(request, response) {
 	lat = request.body.lat,
 	lng = request.body.lng,
 	d = new Date();
+	var check = require('validator').check;
+	check(lat).isNumeric();
+	check(lng).isNumeric();
+	check(login) = isAlphanumeric();
 	var toInsert = {
 		"login":login,
 		"lat":lat,
 		"lng":lng,
 		"created_at":d,
 	};
-	if (login != null || lat != null || lng != null) {
 		db.collection('locations', function(err, collection) {
-			var id = collection.insert(toInsert);
+			var id = collection.insert(toInsert, function(err, saved){
+				if (err) {
+					response.send(500);
+				}
+				else {
+					var JSONstring = '{"characters":[],"students":';
+					db.locations.find().sort({ created_at: 1 });
+					JSONstring += "[";
+					for (var i = 0; i < 100; i++) {
+							JSONstring += cursor[i];
+					}
+					JSONstring += "]}";
+					response.send(JSONstring);	
+				}
+			});
 		});
-	}
-		var JSONstring = '{"characters":[],"students":';
-		db.locations.find().sort({ created_at: 1 });
-		JSONstring += "[";
-		for (var i = 0; i < 100; i++) {
-			JSONstring += cursor[i];
-		}
-		JSONstring += "]}";
-		response.send(JSONstring);
+
 });
