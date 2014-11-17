@@ -35,19 +35,17 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d
 	};
-	db.locations.insert(toInsert);
-	console.log(login);
-//	var JSONstring = '{"characters":[],"students":[';
-//	db.locations.find().sort({ created_at: 1 });
-//	var all = db.locations.find().toArray();
-//	if (all.length>0)
-//		JSONstring += all;
-//	for (var i = 0; i < 100; i++) {
-//		JSONstring += cursor[i];
-//	}
-//	JSONstring += "]}";
-//	response.send(JSONstring);	
-response.send('success');
+	db.collection('locations', function(er, collection) {
+		var id = collection.insert(toInsert, function(err, saved) {
+			if (err) {
+				response.send(500):
+			}
+			else {
+				response.send(200);
+			}
+			});
+		});
+	});
 });
 
 app.listen(process.env.PORT || 3000);
