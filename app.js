@@ -10,8 +10,8 @@ var mongoUri = process.env.MONGOLAB_URI ||
 			   process.env.MONGOHQ_URL  ||
 			   'mongodb://localhost/whereintheworld';
 var mongo = require('mongodb');
-var collections = ['locations'];
-var db = mongo.Db.connect(mongoUri, collections);
+var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
+	db = databaseConnection;
 });
 
 app.use(express.bodyParser());
@@ -34,7 +34,9 @@ app.post('/sendLocation', function(request, response) {
 		"created_at":d,
 	};
 	if (login != null || lat != null || lng != null) {
-		db.locations.insert(toInsert);
+		db.collection('locations', function(err, collection) {
+			var id = collection.insert(toInsert);
+		})
 	}
 		var JSONstring = '{"characters":[],"students":'
 		db.locations.find().sort({ created_at: 1 })
