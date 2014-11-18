@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var mongoUri = process.env.MONGOLAB_URI ||
 			   process.env.MONGOHQ_URL ||
-			   'mongodb://localhost/whereintheworld';
+			   'mongodb://localhost:27017/whereintheworld';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
@@ -60,15 +60,18 @@ app.post('/sendLocation', function(request, response) {
 });
 
 app.get('/locations.json', function(request, response) {
-	response.set('Content-Type', 'application/json');
+	response.setHeader('Content-Type', 'application/json');
 	var login = request.query.login;
+	var data = '';
 	var json = '';
-	db.locations.find({'login':login}, function(err, cursor){
-		if (err) {
-			response.send('[]');
-		}
-		var json = cursor.toArray();
-		response.send(json);
+	db.collection('locations', function(error1, collection) {
+		collection.find().toArray(function(error2, cursor) {
+			if (!error2) {
+			data = collection.find({'login':login}).sort( {created_at: -1});
+			json = JSON.stringify(data);
+			response.send(json);
+			}
+		});
 	});
 });
 
@@ -83,7 +86,6 @@ app.get('/redline.json', function(request, response) {
 
 	http.get(options, function(apiresponse) {
 		var data = '';
-		console.log("Got response: " + apiresponse.statusCode);
 		apiresponse.on('data', function(chunk) {
 			data += chunk;
 		});
@@ -91,7 +93,6 @@ app.get('/redline.json', function(request, response) {
 			response.send(data);
 		});
 	}).on('error', function(error) {
-		console.log("Got error:" + error.message);
 		response.send(500);
 	});
 });
