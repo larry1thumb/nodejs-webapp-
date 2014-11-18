@@ -21,21 +21,10 @@ app.all('*', function(req, res, next) {
 	next();
 });
 
-app.get('/locations.json', function(request, response) {
-	response.set('Content-Type', 'application/json');
-	var login = request.query.login;
-	var json = '';
-	db.locations.find({'login':login}, function(err, cursor){
-		if (err) {
-			response.send('[]');
-		}
-		var json = cursor.toArray();
-		response.send(json);
-	});
-});
 
 app.post('/sendLocation', function(request, response) {
-	console.log('prior');
+	response.setHeader("Content-Type", "application/json");
+	var JSONstring = '{"characters":[],"students":[';
 	var login = request.body.login;
 	var lat = request.body.lat;
 	var lng = request.body.lng;
@@ -47,16 +36,35 @@ app.post('/sendLocation', function(request, response) {
 		"created_at": d,
 	};
 	db.collection('locations', function(error1, collection) {
-		console.log(error1);
 		var id = collection.insert(toInsert, function(error2, saved) {
 			if (error2) {
-				console.log(error2);
 				response.send(500);
 			}
 			else {
-				response.send(200);
+				collection.find().sort({ created_at: 1 });
+				collection.find().toArray(function(err, cursor){
+					if (!err) {
+						for (var count = 0; count < cursor.length; count++) {
+							JSONstring += cursor[count];
+						}
+						JSONstring += "]}";
+					}
+				});
 			}
-		});			
+		});
+	});
+});
+
+app.get('/locations.json', function(request, response) {
+	response.set('Content-Type', 'application/json');
+	var login = request.query.login;
+	var json = '';
+	db.locations.find({'login':login}, function(err, cursor){
+		if (err) {
+			response.send('[]');
+		}
+		var json = cursor.toArray();
+		response.send(json);
 	});
 });
 
