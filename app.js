@@ -12,7 +12,6 @@ var mongoUri = process.env.MONGOLAB_URI ||
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
-});
 
 app.all('*', function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -98,4 +97,5 @@ app.get('/redline.json', function(request, response) {
 	});
 });
 
+});
 app.listen(process.env.PORT || 3000);
