@@ -21,6 +21,10 @@ app.all('*', function(req, res, next) {
 	next();
 });
 
+app.get('/', function(request, response) {
+  response.set('Content-Type', 'text/html');
+  response.send('<p>Hey, it works!</p>');
+});
 
 app.post('/sendLocation', function(request, response) {
 	response.setHeader("Content-Type", "application/json");
