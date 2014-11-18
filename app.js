@@ -41,7 +41,7 @@ app.post('/sendLocation', function(request, response) {
 				response.send(500);
 			}
 			else {
-				collection.find().sort({ created_at: 1 });
+				collection.find().sort({ created_at: -1 });
 				collection.find().toArray(function(err, cursor){
 					if (!err) {
 						for (var count = 0; count < cursor.length; count++) {
@@ -68,4 +68,24 @@ app.get('/locations.json', function(request, response) {
 	});
 });
 
+app.get('/redline.json', function(request, response) {
+	response.setHeader("Content-Type", "application/json");
+	var http = require('http');
+	var options = {
+		host: 'http://developer.mbta.com',
+		port: 80,
+		path '/lib/rthr/red.json'	
+	};
+	var data = '';
+	http.get(options, function(apiresponse) {
+		apiresponse.on('data', function(chunk) {
+			data += chunk;
+		});
+		apiresponse.on('end', function() {
+			response.send(data);
+		});
+	}).on('error', function(error) {
+		response.send(500);
+	});
+});
 app.listen(process.env.PORT || 3000);
