@@ -17,7 +17,7 @@ var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 app.all('*', function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
 	next();
 });
 
@@ -76,7 +76,7 @@ app.get('/redline.json', function(request, response) {
 	response.setHeader('Content-Type', 'application/json');
 	var http = require('http');
 	var options = {
-		host: 'http://developer.mbta.com',
+		host: 'developer.mbta.com',
 		port: 80,
 		path: '/lib/rthr/red.json'	
 	};
