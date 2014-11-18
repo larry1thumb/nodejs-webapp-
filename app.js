@@ -28,7 +28,7 @@ app.get('/', function(request, response) {
 
 app.post('/sendLocation', function(request, response) {
 	response.setHeader("Content-Type", "application/json");
-	var JSONstring = '{"characters":[],"students":[';
+	var data = '';
 	var login = request.body.login;
 	var lat = request.body.lat;
 	var lng = request.body.lng;
@@ -41,17 +41,18 @@ app.post('/sendLocation', function(request, response) {
 	};
 	db.collection('locations', function(error1, collection) {
 		var id = collection.insert(toInsert, function(error2, saved) {
-			if (error2) {
+			if (error2) 
+			{
 				response.send(500);
 			}
-			else {
-				collection.find().sort({ created_at: -1 });
-				collection.find().toArray(function(err, cursor){
-					if (!err) {
-						for (var count = 0; count < cursor.length; count++) {
-							JSONstring += cursor[count];
-						}
-						JSONstring += "]}";
+			else 
+			{
+				collection.find().toArray(function(error3, cursor) {
+					if (!error3) 
+					{
+						data = collection.find().sort({ created_at: -1 });
+						var json = JSON.stringify(data);
+						response.send(json);
 					}
 				});
 			}
