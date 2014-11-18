@@ -35,6 +35,7 @@ app.get('/locations.json', function(request, response) {
 });
 
 app.post('/sendLocation', function(request, response) {
+	console.log('prior');
 	var login = request.body.login;
 	var lat = request.body.lat;
 	var lng = request.body.lng;
@@ -45,7 +46,6 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d,
 	};
-	console.log('prior to collection');
 	db.collection('locations', function(error1, collection) {
 		console.log(error1);
 		var id = collection.insert(toInsert, function(error2, saved) {
