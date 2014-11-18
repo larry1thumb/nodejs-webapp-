@@ -45,11 +45,16 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d,
 	};
-	db.locations.insert(toInsert);
-	response.set('Content-Type', 'application/json');
-	var string = '{"characters":[],"students":{"login":"mchow","lat":42.5335,"lng":-71.1036,"created_at":"Tue Oct 07 2014 04:30:06 GMT+0000 (UTC)","_id":"54336c4e7e6ccd0200ea457c"}]}';
-	response.send(200);
-	response.send(string);
+	db.collection('locations', function(error1, collection) {
+		var id = collection.insert(toInsert, function(error2, save) {
+			if (!error2) {
+				collection.find().sort({ created_at: 1 });
+				var json = db.locations.find().toArray();
+				JSON.stringify(json);
+				response.send(json);
+			}
+		});			
+	});
 });
 
 app.listen(process.env.PORT || 3000);
