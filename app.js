@@ -46,12 +46,12 @@ app.post('/sendLocation', function(request, response) {
 		"created_at": d,
 	};
 	db.collection('locations', function(error1, collection) {
-		var id = collection.insert(toInsert, function(error2, save) {
-			if (!error2) {
-				collection.find().sort({ created_at: 1 });
-				var json = db.locations.find().toArray();
-				JSON.stringify(json);
-				response.send(json);
+		var id = collection.insert(toInsert, function(error2, saved) {
+			if (error2) {
+				response.send(500);
+			}
+			else {
+				response.send(200);
 			}
 		});			
 	});
