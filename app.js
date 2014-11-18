@@ -74,7 +74,7 @@ app.get('/redline.json', function(request, response) {
 	var options = {
 		host: 'http://developer.mbta.com',
 		port: 80,
-		path '/lib/rthr/red.json'	
+		path: '/lib/rthr/red.json'	
 	};
 	var data = '';
 	http.get(options, function(apiresponse) {
