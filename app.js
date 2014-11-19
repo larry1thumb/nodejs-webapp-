@@ -38,9 +38,7 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d,
 	};
-	response.setHeader('Content-Type', 'text/html');
-	response.send(toInsert);
-	
+		
 	db.collection('locations', function(error1, collection) {
 		var id = collection.insert(toInsert, function(error2, saved) {
 			if (error2) 
