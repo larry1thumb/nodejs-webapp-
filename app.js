@@ -116,8 +116,6 @@ app.get('/redline.json', function(request, response) {
 			response.setHeader("Content-Type", "application/json");
 			response.send(data);
 		});
-			response.send(data);
-		});
 	}).on('error', function(error) {
 		response.send(500);
 	});
