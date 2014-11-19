@@ -27,6 +27,8 @@ app.get('/', function(request, response) {
 });
 
 app.post('/sendLocation', function(request, response) {
+	response.header("Access-Control-Allow-Origin", "*");
+	response.header("Access-Control-Allow-Headers", "X-Requested-With");
 	var data = '';
 	var login = request.body.login;
 	var lat = parseFloat(request.body.lat);
