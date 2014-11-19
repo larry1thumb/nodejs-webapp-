@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var mongoUri = process.env.MONGOLAB_URI ||
 			   process.env.MONGOHQ_URL ||
-			   'mongodb://localhost/whereintheworld';
+			   'mongodb://localhost/assignment3';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
