@@ -12,7 +12,10 @@ var mongoUri = process.env.MONGOLAB_URI ||
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
-	post();
+	var loc = {
+		"characters" : []
+	}
+	db.createCollection("locations", loc)
 });
 
 app.all('*', function(req, res, next) {
@@ -27,8 +30,6 @@ app.get('/', function(request, response) {
   response.send('<p>Hey, it works!</p>');
 });
 
-function post()
-{
 app.post('/sendLocation', function(request, response) {
 	response.setHeader("Content-Type", "application/json");
 	var data = '';
@@ -62,7 +63,7 @@ app.post('/sendLocation', function(request, response) {
 		});
 	});
 });
-}
+
 app.get('/locations.json', function(request, response) {
 	response.setHeader('Content-Type', 'application/json');
 	var login = request.query.login;
