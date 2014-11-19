@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var mongoUri = process.env.MONGOLAB_URI ||
 			   process.env.MONGOHQ_URL ||
-			   'mongodb://localhost:27017/whereintheworld';
+			   'mongodb://localhost/whereintheworld';
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
@@ -27,8 +27,6 @@ app.get('/', function(request, response) {
 });
 
 app.post('/sendLocation', function(request, response) {
-	while (!db) {
-	response.setHeader("Content-Type", "application/json");
 	var data = '';
 	var login = request.body.login;
 	var lat = parseFloat(request.body.lat);
@@ -59,7 +57,6 @@ app.post('/sendLocation', function(request, response) {
 			}
 		});
 	});
-	}
 });
 
 app.get('/locations.json', function(request, response) {
