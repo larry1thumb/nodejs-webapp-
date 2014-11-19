@@ -70,9 +70,8 @@ app.post('/sendLocation', function (request, response) {
 							if(i>0) {
 								json += ",";
 							}
-							json += "]}";
 						}
-
+							json += "]}";
 						response.send(json);
 					}
 				});
