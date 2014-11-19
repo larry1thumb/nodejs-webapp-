@@ -12,10 +12,6 @@ var mongoUri = process.env.MONGOLAB_URI ||
 var mongo = require('mongodb');
 var db = mongo.Db.connect(mongoUri, function(error, databaseConnection) {
 	db = databaseConnection;
-	var loc = {
-		"characters" : []
-	}
-	db.createCollection("locations", loc)
 });
 
 app.all('*', function(req, res, next) {
@@ -31,11 +27,12 @@ app.get('/', function(request, response) {
 });
 
 app.post('/sendLocation', function(request, response) {
+	while (!db) {
 	response.setHeader("Content-Type", "application/json");
 	var data = '';
 	var login = request.body.login;
-	var lat = request.body.lat;
-	var lng = request.body.lng;
+	var lat = parseFloat(request.body.lat);
+	var lng = parseFloat(request.body.lng);
 	var d = new Date();
 	var toInsert = {
 		"login": login,
@@ -43,7 +40,7 @@ app.post('/sendLocation', function(request, response) {
 		"lng": lng,
 		"created_at": d,
 	};
-	db.collection('locations', function(error1, collection) {
+	db.collection('locations  ', function(error1, collection) {
 		var id = collection.insert(toInsert, function(error2, saved) {
 			if (error2) 
 			{
@@ -62,6 +59,7 @@ app.post('/sendLocation', function(request, response) {
 			}
 		});
 	});
+	}
 });
 
 app.get('/locations.json', function(request, response) {
