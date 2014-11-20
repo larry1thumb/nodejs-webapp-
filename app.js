@@ -133,7 +133,6 @@ app.get('/redline.json', function(request, response) {
 		port: 80,
 		path: '/lib/rthr/red.json'	
 	};
-
 	http.get(options, function(apiresponse) {
 		var data = '';
 		apiresponse.on('data', function(chunk) {
