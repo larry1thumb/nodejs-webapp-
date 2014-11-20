@@ -24,52 +24,21 @@ app.get('/', function (request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
   	response.header("Access-Control-Allow-Headers", "X-Requested-With");
 	response.setHeader('Content-Type', 'text/html');
-	var json = '';
-	var data = '';
-	var content = '';
+	var indexPage = '';
 	db.collection('locations', function(error1, collection) {
 		collection.find().sort({ created_at: -1 });
 		collection.find().toArray(function(error2, cursor) {
 			if (!error2) {
-				json += "[";
-				var count;
-				if (cursor.length - 100 >= 0) {
-					var temp = cursor.length - 100;
-					count = cursor.length - temp;
-				} else {
-					count = cursor.length;
+				indexPage += "<!DOCTYPE HTML><html><head><title>Where In The World</title></head><body><h1>People in my herokuuuuu</h1>";
+			 	for (var i = 0; i < cursor.length - 1; i++) {
+					indexPage += "<p>Login: " + cursor[i].login + " Lat: " + cursor[i].lat + " Lng: " + cursor[i].lng + " Created at: " + cursor[i].created_at + "</p>";
 				}
-				for (var count = count - 1; count >= 0; count--) {
-					json += JSON.stringify(cursor[count]);
-					if (count > 0) {
-						json += ", ";
-					}
-				}
-				json += "]";
-				data = JSON.parse(json);
-				JSONsearch(data, content);				 
+				indexPage += "</body></html>"
+				response.send(indexPage);
 			}
 		});
 	});
 });
-
-function JSONsearch(data, content)
-{
-	for (var i = 0; i < data['students'].length; i++) {
-		var login = data['students'][i];
-		createinfo(login, content);	
-	}
-	response.send(content);
-}
-
-function createinfo(login, content)
-{
-	var name = login['login'][i];
-	var lat = login['lat'][i];
-	var lng = login['lng'][i];
-	var timestamp = login['created_at'][i];
-	content += name + ' ' + lat + ' ' + lng + ' ' + timestamp;
-}
 
 app.post('/sendLocation', function (request, response) {
 	response.header("Access-Control-Allow-Origin", "*");
